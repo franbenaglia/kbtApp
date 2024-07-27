@@ -1,0 +1,7 @@
+{
+  "name": "kbtApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
