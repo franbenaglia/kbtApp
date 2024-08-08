@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   public appPages = [
     { title: 'Test', url: '/folder/test', icon: 'paper-plane' },
+    { title: 'Blt Temp', url: 'folder/bltemperature', icon: 'paper-plane' },
 
   ];
   constructor(private cookieService: CookieService, private authService: AuthService, private router: Router) {

@@ -10,4 +10,24 @@
       <ion-title size="large">bltemperature</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">test</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col><ion-button (click)="scanByName()">Start Scan by name</ion-button></ion-col>
+      <ion-col><ion-button (click)="scanAll()">Start Scan All</ion-button></ion-col>
+      <ion-col><ion-button (click)="scanByUUIID()">Start Scan By UUIID</ion-button></ion-col>
+      <ion-col><ion-button (click)="stop()">Stop Scan</ion-button></ion-col>
+      <ion-col><ion-button (click)="connect()">Connect to device</ion-button></ion-col>
+      <ion-col><ion-button (click)="requestDeviceBatteryLevel()">Connect to device</ion-button></ion-col>
+      <ion-col><ion-button (click)="volumeLevel()">Volume Level</ion-button></ion-col>
+    </ion-row>
+    <!--ion-row>
+      <ion-input [(ngModel)]="output"></ion-input>
+    </ion-row-->
+  </ion-grid>
+
 </ion-content>

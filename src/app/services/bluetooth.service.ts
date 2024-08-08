@@ -2,6 +2,22 @@ import { Injectable } from '@angular/core';
 import { BleClient, BleDevice } from '@capacitor-community/bluetooth-le';
 import { Capacitor } from '@capacitor/core';
 //https://github.com/aBoyCanDream/ESP32-Capacitor-BLE-Tutorial/blob/main/src/js/main.js
+
+//https://developer.chrome.com/docs/capabilities/bluetooth
+
+//https://github.com/WebBluetoothCG/web-bluetooth/blob/main/implementation-status.md  :
+//  Android WebView: Will be supported in the future
+//  In Android, Chrome OS, Mac and Windows, the GATT Communication API is shipped without any flag.
+// web: Linux is partially implemented and not supported. The chrome://flags/#enable-experimental-web-platform-features
+// flag must be enabled.
+// web: Linux firefox not supported, chrome partially, android webview not supported
+
+// generic_access, generic_attribute : redminote7
+//https://googlechrome.github.io/samples/web-bluetooth/characteristic-properties.html?service=generic_access
+
+//chrome://bluetooth-internals/#devices     nro de servicios de cada dispositivo conectado, al googlear son drivers del
+//bluetooth conectado
+
 type Funct = () => void;
 
 @Injectable({
@@ -18,11 +34,15 @@ export class BluetoothService {
 
   }
 
-  scan() {
-    this.initialize(this.startScanning, this.stopScanning);
+  starScan() {
+    this.initialize(this.startScanning);
   }
 
-  private async initialize(...funs: Funct[]): Promise<void> {
+  stopScan() {
+    this.initialize(this.stopScanning);
+  }
+
+  private async initialize(fun: Funct): Promise<void> {
 
     if (Capacitor.getPlatform() == 'android') {
       //Reports whether Location Services are enabled on this device. Only available on Android.
@@ -34,19 +54,20 @@ export class BluetoothService {
     await BleClient.initialize({ androidNeverForLocation: true });
 
     this.isBLEEnabled = await BleClient.isEnabled();
+
     if (this.isBLEEnabled && this.isLocationEnabled) {
       this.ble = true;
-      for (let f of funs) {
-
-      }
-      //fun1;   //this.startScanning();
-      //fun2;   //this.stopScanning();
+      fun();
     }
 
   }
 
   private startScanning(): void {
-    BleClient.requestLEScan({ allowDuplicates: false }, (res1) => {
+    BleClient.requestLEScan({ 
+      allowDuplicates: false,
+      services: ['00001105-0000-1000-8000-00805f9b34fb']      //chrome://bluetooth-internals/#devices , earphones bt redminote 
+    },
+       (res1) => {
       console.log('Device found', res1)
     });
   }
